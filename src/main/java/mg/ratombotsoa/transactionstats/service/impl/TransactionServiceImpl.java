@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import mg.ratombotsoa.transactionstats.model.Statistics;
 import mg.ratombotsoa.transactionstats.model.Transaction;
 import mg.ratombotsoa.transactionstats.repository.TransactionRepository;
 import mg.ratombotsoa.transactionstats.service.TransactionService;
@@ -46,6 +47,17 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		return Optional.of(persistedTransaction);
+	}
+
+	@Override
+	public Statistics computeTransactionStatistics() {
+		Long currentTime = System.currentTimeMillis();
+		Date currentDate = new Date(currentTime);
+		Date boundaryDate = new Date(currentTime - computingInterval);
+		
+		Statistics statistics = transactionRepository.computeTransactionStatistics(boundaryDate, currentDate);
+		LOGGER.trace("Computed statistics: {}", statistics);
+		return statistics;
 	}
 
 }

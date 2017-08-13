@@ -1,6 +1,9 @@
 package mg.ratombotsoa.transactionstats.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,5 +64,18 @@ public class TransactionControllerTest {
 			.content(new JSONObject(data).toString()))
 			.andExpect(status().is2xxSuccessful())
 			.andExpect(status().isCreated());
+	}
+	
+	@Test
+	public void testComputeStatistics_returnCorrectValue() throws Exception {
+		mockMvc.perform(get("/statistics"))
+			.andExpect(status().isOk())
+			.andExpect(content().string(containsString("max")))
+			.andExpect(content().string(containsString("avg")))
+			.andExpect(content().string(containsString("sum")))
+			.andExpect(content().string(containsString("min")))
+			.andExpect(content().string(containsString("count")))
+			.andExpect(content().string(startsWith("{")))
+			.andExpect(content().string(endsWith("}")));
 	}
 }

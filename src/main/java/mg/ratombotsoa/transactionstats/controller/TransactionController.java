@@ -39,13 +39,8 @@ public class TransactionController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
-	@GetMapping(value = "/statistics")
+	@GetMapping(value = {"/statistics"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Statistics computeStatistics() {
-		/*
-		 * TODO
-		 * - Call the service to compute the stats
-		 * - Return a instance of Statistics
-		 */
-		return new Statistics();
+		return transactionService.computeTransactionStatistics();
 	}
 }

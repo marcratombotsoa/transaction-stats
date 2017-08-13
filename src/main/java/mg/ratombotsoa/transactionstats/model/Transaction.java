@@ -39,6 +39,12 @@ public class Transaction implements Serializable {
 	public Transaction() {
 		super();
 	}
+	
+	public Transaction(BigDecimal amount, Date timestamp) {
+		super();
+		this.amount = amount;
+		this.timestamp = timestamp;
+	}
 
 	public Long getId() {
 		return id;
